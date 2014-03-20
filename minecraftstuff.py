@@ -102,6 +102,35 @@ class MinecraftDrawing:
             self.drawPoint3d(x0 - y, y0 + x, z, blockType, blockData)
             self.drawPoint3d(x0 + y, y0 - x, z, blockType, blockData)
             self.drawPoint3d(x0 - y, y0 - x, z, blockType, blockData)
+
+    # draw a horizontal circle
+    def drawHorizontalCircle(self, x0, y, z0, radius, blockType, blockData=0):
+        f = 1 - radius
+        ddf_x = 1
+        ddf_z = -2 * radius
+        x = 0
+        z = radius
+        self.drawPoint3d(x0, y, z0 + radius, blockType, blockData)
+        self.drawPoint3d(x0, y, z0 - radius, blockType, blockData)
+        self.drawPoint3d(x0 + radius, y, z0, blockType, blockData)
+        self.drawPoint3d(x0 - radius, y, z0, blockType, blockData)
+     
+        while x < z:
+            if f >= 0:
+                z -= 1
+                ddf_z += 2
+                f += ddf_z
+            x += 1
+            ddf_x += 2
+            f += ddf_x   
+            self.drawPoint3d(x0 + x, y, z0 + z, blockType, blockData)
+            self.drawPoint3d(x0 - x, y, z0 + z, blockType, blockData)
+            self.drawPoint3d(x0 + x, y, z0 - z, blockType, blockData)
+            self.drawPoint3d(x0 - x, y, z0 - z, blockType, blockData)
+            self.drawPoint3d(x0 + z, y, z0 + x, blockType, blockData)
+            self.drawPoint3d(x0 - z, y, z0 + x, blockType, blockData)
+            self.drawPoint3d(x0 + z, y, z0 - x, blockType, blockData)
+            self.drawPoint3d(x0 - z, y, z0 - x, blockType, blockData)
     
     # returns points on a line
     # 3d implementation of bresenham line algorithm
