@@ -12,5 +12,6 @@ and other objects
 
 Version history
 0.1 - first beta release, MinecraftDrawing class
+0.2 - extended with new drawing functions and MinecraftShapes class
 
 -------------------------------------------------------------------------------

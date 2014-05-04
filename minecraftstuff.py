@@ -1,11 +1,19 @@
 #www.stuffaboutcode.com
+#github.com/martinohanlon/minecraft-stuff
 #Raspberry Pi, Minecraft - Minecraft 'stuff' extensions
 
 #import the minecraft.py module 
 import minecraft
 #import block.py module
 import block
+#import copy, to copy objects
+import copy
+#import time to use delays
+import time
+#import collections to use Counters
+import collections
 
+#MinecraftDrawing class.  Useful functions for drawing objects.
 class MinecraftDrawing:
     def __init__(self, mc):
         self.mc = mc
@@ -230,6 +238,117 @@ class MinecraftDrawing:
                     
         return vertices
 
+# MinecraftShape - a class for managing shapes
+class MinecraftShape:
+     
+    def __init__(self, mc, position, shapeBlocks, visible=True):
+        #persist data
+        self.mc = mc
+        #shape blocks is the original shape
+        self.shapeBlocks = shapeBlocks
+        #drawn shape blocks is where the blocks have been drawn
+        self.drawnShapeBlocks = None
+        #set it to visible or not
+        self.visible = visible
+        #store the position
+        self.position = position
+        #move the shape to its position
+        self.move(position.x, position.y, position.z)
+
+    def draw(self):
+        #draw the shape
+
+        #Find the blocks which are different between the last ones drawn
+        #create counters
+        drawnCounter = collections.Counter(self.drawnShapeBlocks)
+        currentCounter = collections.Counter(self.shapeBlocks)
+        
+        #work out the blocks which need to be cleared
+        for blockToClear in drawnCounter - currentCounter:
+            #print "block to clear"
+            #print str(blockToClear.actualPos.x) + "," + str(blockToClear.actualPos.y) + "," + str(blockToClear.actualPos.z)
+            self.mc.setBlock(blockToClear.actualPos.x, blockToClear.actualPos.y, blockToClear.actualPos.z, block.AIR.id)
+
+        #work out the blocks which have changed and need to be re-drawn
+        for blockToDraw in currentCounter - drawnCounter:
+            #print "block to draw"
+            #print str(blockToDraw.actualPos.x) + "," + str(blockToDraw.actualPos.y) + "," + str(blockToDraw.actualPos.z)
+            self.mc.setBlock(blockToDraw.actualPos.x, blockToDraw.actualPos.y, blockToDraw.actualPos.z, blockToDraw.blockType, blockToDraw.blockData)
+
+        #OLD CODE, USED PRIOR TO THE CODE ABOVE WHICH ONLY CHANGES THE BLOCKS WHICH HAVE CHANGED    
+        #clear all blocks
+        #self.clear()
+        
+        #work out which blocks to draw
+        #if self.drawnShapeBlocks == None:
+        #    blocksToDraw = copy.deepcopy(self.shapeBlocks)
+
+        #for blockToDraw in blocksToDraw:
+        #    self.mc.setBlock(blockToDraw.actualPos.x,
+        #                     blockToDraw.actualPos.y,
+        #                     blockToDraw.actualPos.z,
+        #                     blockToDraw.blockType,
+        #                     blockToDraw.blockData)
+        
+        #update the blocks which have been drawn
+        self.drawnShapeBlocks = copy.deepcopy(self.shapeBlocks)
+        self.visible = True
+
+    def clear(self):
+        #clear the shape
+        if self.drawnShapeBlocks == None:
+            pass
+        else:
+            for blockToClear in self.drawnShapeBlocks:
+                self.mc.setBlock(blockToClear.actualPos.x,
+                                 blockToClear.actualPos.y,
+                                 blockToClear.actualPos.z,
+                                 block.AIR.id)
+            self.drawnShapeBlocks = None
+        self.visible = False
+
+    def moveBy(self, x, y, z):
+        #move the position of the shape by x,y,z
+        self.move(self.position.x + x, self.position.y + y, self.position.z + z)
+
+    def move(self, x, y, z):
+        #move the position of the shape to x,y,z
+        self.position.x = x
+        self.position.y = y
+        self.position.z = z
+
+        #recalulate the shapeBlockPositions based on the shapeBlocks and the position
+        #loop through the shapeBlocks
+        for shapeBlock in self.shapeBlocks:
+            #offset the position of the block by the position
+            shapeBlock.actualPos.x = shapeBlock.relativePos.x + self.position.x
+            shapeBlock.actualPos.y = shapeBlock.relativePos.y + self.position.y
+            shapeBlock.actualPos.z = shapeBlock.relativePos.z + self.position.z
+        
+        #if its visible redraw it
+        if self.visible:
+            self.draw()
+
+# a class created to manage a block within a shape
+class ShapeBlock():
+    def __init__(self, x, y, z, blockType, blockData=0):
+        #persist data
+        self.blockType = blockType
+        self.blockData = blockData
+        #store the positions
+        # relative pos - block position relatively to other shape blocks
+        self.relativePos = minecraft.Vec3(x, y, z)
+        # actual pos - actual block position in the world
+        self.actualPos = minecraft.Vec3(x, y, z)
+        # the mc block object
+        self.mcBlock = block.Block(blockType, blockData)
+
+    def __hash__(self):
+        return hash((self.actualPos.x, self.actualPos.y, self.actualPos.z, self.blockType, self.blockData))
+
+    def __eq__(self, other):
+        return (self.actualPos.x, self.actualPos.y, self.actualPos.z, self.blockType, self.blockData) == (other.actualPos.x, other.actualPos.y, other.actualPos.z, other.blockType, other.blockData)
+
 # testing
 if __name__ == "__main__":
 
@@ -275,3 +394,27 @@ if __name__ == "__main__":
     faceVertices.append(minecraft.Vec3(-5,15,5))
     mcDrawing.drawFace(faceVertices, True, block.GOLD_BLOCK.id)
 
+    #test shape
+    playerPos = mc.player.getTilePos()
+
+    #create shape object
+    shapeBlocks = [ShapeBlock(0,0,0,block.DIAMOND_BLOCK.id),
+                  ShapeBlock(1,0,0,block.DIAMOND_BLOCK.id),
+                  ShapeBlock(1,0,1,block.DIAMOND_BLOCK.id),
+                  ShapeBlock(0,0,1,block.DIAMOND_BLOCK.id),
+                  ShapeBlock(0,1,0,block.DIAMOND_BLOCK.id),
+                  ShapeBlock(1,1,0,block.DIAMOND_BLOCK.id),
+                  ShapeBlock(1,1,1,block.DIAMOND_BLOCK.id),
+                  ShapeBlock(0,1,1,block.DIAMOND_BLOCK.id)]
+    # move the shape about
+    myShape = MinecraftShape(mc, playerPos, shapeBlocks)
+    time.sleep(10)
+    myShape.moveBy(-1,1,-1)
+    time.sleep(10)
+    myShape.moveBy(1,0,1)
+    time.sleep(10)
+    myShape.moveBy(1,1,0)
+    time.sleep(10)
+
+    #clear the shape
+    myShape.clear()
