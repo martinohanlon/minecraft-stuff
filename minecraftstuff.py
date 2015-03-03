@@ -82,6 +82,15 @@ class MinecraftDrawing:
                     if x**2 + y**2 + z**2 < radius**2:
                         self.drawPoint3d(x1 + x, y1 + y, z1 + z, blockType, blockData)
 
+    # draw hollow sphere
+    def drawHollowSphere(self, x1, y1, z1, radius, blockType, blockData=0):
+        # create sphere
+        for x in range(radius*-1,radius):
+            for y in range(radius*-1, radius):
+                for z in range(radius*-1,radius):
+                    if (x**2 + y**2 + z**2 < radius**2) and (x**2 + y**2 + z**2 > (radius**2 - (radius * 2))):
+                        self.drawPoint3d(x1 + x, y1 + y, z1 +z, blockType, blockData)
+
     # draw a verticle circle
     def drawCircle(self, x0, y0, z, radius, blockType, blockData=0):
         f = 1 - radius
