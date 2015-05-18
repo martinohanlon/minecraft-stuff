@@ -14,5 +14,6 @@ Version history
 0.1 - first beta release, MinecraftDrawing class
 0.2 - extended with new drawing functions and MinecraftShapes class
 0.3 - included DrawHollowSphere function
+0.4 - rotating shapes & code tidy up
 
 -------------------------------------------------------------------------------
