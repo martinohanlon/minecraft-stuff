@@ -15,5 +15,6 @@ Version history
 0.2 - extended with new drawing functions and MinecraftShapes class
 0.3 - included DrawHollowSphere function
 0.4 - rotating shapes & code tidy up
+0.5 - replace sets.Set with set
 
 -------------------------------------------------------------------------------
