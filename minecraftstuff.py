@@ -568,10 +568,13 @@ class ShapeBlock():
         return hash((self.actualPos.x, self.actualPos.y, self.actualPos.z, self.blockType, self.blockData))
 
     def __eq__(self, other):
-        return (self.actualPos.x, self.actualPos.y, self.actualPos.z, self.blockType, self.blockData) == (other.actualPos.x, other.actualPos.y, other.actualPos.z, other.blockType, other.blockData)
+        if other is None:
+            return False
+        else:
+            return (self.actualPos.x, self.actualPos.y, self.actualPos.z, self.blockType, self.blockData) == (other.actualPos.x, other.actualPos.y, other.actualPos.z, other.blockType, other.blockData)
 
 # rotation test
-if __name__ == "__main__2":
+if __name__ == "__main__":
 
     #connect to minecraft
     mc = minecraft.Minecraft.create()
@@ -618,7 +621,7 @@ if __name__ == "__main__2":
         myShape.clear()
     
 # minecraft stuff testing
-if __name__ == "__main__":
+if __name__ == "__main__2":
 
     #connect to minecraft
     mc = minecraft.Minecraft.create()
