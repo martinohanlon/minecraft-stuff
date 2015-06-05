@@ -17,5 +17,6 @@ Version history
 0.4 - rotating shapes & code tidy up
 0.5 - replace sets.Set with set
 0.6 - python 3 compatibility changes
+0.7 - minor changes
 
 -------------------------------------------------------------------------------

@@ -5,9 +5,11 @@
 try:
     import mcpi.minecraft as minecraft
     import mcpi.block as block
+    import mcpi.util as util
 except ImportError:
     import minecraft
     import block
+    import util
     
 from copy import deepcopy
 import time
@@ -315,7 +317,7 @@ class MinecraftShape:
         else:
             drawnSet = set(self.drawnShapeBlocks)
         currentSet = set(self.shapeBlocks)
-
+        
         #work out the blocks which need to be cleared
         for blockToClear in drawnSet - currentSet:
             self.mc.setBlock(blockToClear.actualPos.x, blockToClear.actualPos.y, blockToClear.actualPos.z, block.AIR.id)
@@ -328,12 +330,10 @@ class MinecraftShape:
         self.drawnShapeBlocks = deepcopy(self.shapeBlocks)
         self.visible = True
 
-    def _draw_fullrefresh(self):
+    def redraw(self):
         """
-        USED FOR DEBUGGING ONLY
         draws the shape in Minecraft, by clearing all the blocks and redrawing them 
         """
-
         if self.drawnShapeBlocks != None:
             for blockToClear in self.drawnShapeBlocks:
                 self.mc.setBlock(blockToClear.actualPos.x, blockToClear.actualPos.y, blockToClear.actualPos.z, block.AIR.id)
@@ -369,15 +369,17 @@ class MinecraftShape:
     def move(self, x, y, z):
         """
         moves the position of the shape to x,y,z
-        """        
-        self.position.x = x
-        self.position.y = y
-        self.position.z = z
+        """
+        #is the position different
+        if self.position.x != x or self.position.y != y or self.position.z != z:
+            self.position.x = x
+            self.position.y = y
+            self.position.z = z
 
-        self._recalcBlocks()
-        
-        if self.visible:
-            self.draw()
+            self._recalcBlocks()
+            
+            if self.visible:
+                self.draw()
 
     def _recalcBlocks(self):
         """
@@ -404,15 +406,18 @@ class MinecraftShape:
         """
         sets the rotation of a shape by yaw, pitch and roll
         """
-        #update values
-        self.yaw, self.pitch, self.roll = yaw, pitch, roll
-        
-        #recalc all the block positions
-        self._recalcBlocks()
+        #is the rotation different?
+        if yaw != self.yaw or pitch != self.pitch or roll != self.roll:
+            
+            #update values
+            self.yaw, self.pitch, self.roll = yaw, pitch, roll
+            
+            #recalc all the block positions
+            self._recalcBlocks()
 
-        #if its visible redraw it
-        if self.visible:
-            self.draw()
+            #if its visible redraw it
+            if self.visible:
+                self.draw()
 
     def rotateBy(self, yaw, pitch, roll):
         """
@@ -580,7 +585,8 @@ if __name__ == "__main__":
     mc = minecraft.Minecraft.create()
 
     #test shape
-    pos = minecraft.Vec3(0,40,0)
+    pos = mc.player.getTilePos()
+    pos.y += 40
 
     myShape = MinecraftShape(mc, pos)
     try:
@@ -615,8 +621,9 @@ if __name__ == "__main__":
 
         for count in range(0,5):
             myShape.moveBy(1,0,0)
+            time.sleep(0.5)
 
-        time.sleep(10)
+        time.sleep(5)
     finally:
         myShape.clear()
     
