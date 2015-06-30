@@ -287,11 +287,17 @@ class MinecraftShape:
     When a shape is changed and redrawn in Minecraft only the blocks which have changed are updated.
     """
      
-    def __init__(self, mc, position, shapeBlocks = [], visible = True):
+    def __init__(self, mc, position, shapeBlocks = None, visible = True):
         #persist the data
         self.mc = mc
         self.position = position
-        self.shapeBlocks = shapeBlocks
+        self.originalPos = self.position.clone()
+        
+        if shapeBlocks == None:
+            self.shapeBlocks = []
+        else:
+            self.shapeBlocks = shapeBlocks
+
         self.visible = visible
 
         #setup properties
@@ -303,7 +309,7 @@ class MinecraftShape:
         self.yaw, self.pitch, self.roll = 0, 0, 0
 
         #move the shape to its starting position
-        self.move(position.x, position.y, position.z)
+        self._move(position.x, position.y, position.z)
 
     def draw(self):
         """
@@ -360,11 +366,18 @@ class MinecraftShape:
         
         self.visible = False
 
+    def reset(self):
+        """
+        resets the shape back to its original position
+        """
+        self.rotate(0,0,0)
+        self.move(self.originalPos.x, self.originalPos.y, self.originalPos.z)
+
     def moveBy(self, x, y, z):
         """
         moves the position of the shape by x,y,z
         """
-        self.move(self.position.x + x, self.position.y + y, self.position.z + z)
+        return self._move(self.position.x + x, self.position.y + y, self.position.z + z)
 
     def move(self, x, y, z):
         """
@@ -380,6 +393,25 @@ class MinecraftShape:
             
             if self.visible:
                 self.draw()
+
+            return True
+        
+        else:
+            
+            return False
+
+    def _move(self, x, y, z):
+        """
+        Internal. moves the position of the shape to x,y,z
+        """
+        self.position.x = x
+        self.position.y = y
+        self.position.z = z
+
+        self._recalcBlocks()
+        
+        if self.visible:
+            self.draw()
 
     def _recalcBlocks(self):
         """
@@ -419,11 +451,17 @@ class MinecraftShape:
             if self.visible:
                 self.draw()
 
+            return True
+        
+        else:
+            
+            return False
+
     def rotateBy(self, yaw, pitch, roll):
         """
         increments the rotation of a shape by yaw, pitch and roll
         """
-        self.rotate(self.yaw + yaw, self.pitch + pitch, self.roll + roll)
+        return self.rotate(self.yaw + yaw, self.pitch + pitch, self.roll + roll)
         
     def _moveShapeBlock(self, shapeBlock, x, y, z):
         """
@@ -579,7 +617,7 @@ class ShapeBlock():
             return (self.actualPos.x, self.actualPos.y, self.actualPos.z, self.blockType, self.blockData) == (other.actualPos.x, other.actualPos.y, other.actualPos.z, other.blockType, other.blockData)
 
 # rotation test
-if __name__ == "__main__":
+if __name__ == "__main__2":
 
     #connect to minecraft
     mc = minecraft.Minecraft.create()
@@ -628,7 +666,7 @@ if __name__ == "__main__":
         myShape.clear()
     
 # minecraft stuff testing
-if __name__ == "__main__2":
+if __name__ == "__main__":
 
     #connect to minecraft
     mc = minecraft.Minecraft.create()
@@ -689,13 +727,14 @@ if __name__ == "__main__2":
     
     #move the shape about
     myShape = MinecraftShape(mc, playerPos, shapeBlocks)
+    print("drawn shape")
     time.sleep(10)
     myShape.moveBy(-1,1,-1)
-    time.sleep(10)
+    time.sleep(1)
     myShape.moveBy(1,0,1)
-    time.sleep(10)
+    time.sleep(1)
     myShape.moveBy(1,1,0)
-    time.sleep(10)
+    time.sleep(1)
 
     #rotate the shape
     myShape.rotate(90,0,0)
