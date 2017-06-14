@@ -1,10 +1,23 @@
-#Minecraft - Stuff Library
+# Minecraft - Stuff Library
 
 Martin O'Hanlon (martin@ohanlonweb.com)
+
 http://www.stuffaboutcode.com
 
 ## Description
-An extension library of useful 'stuff' (aka classes) I have created for  Minecraft: Pi Edition's API.  It provides functions for drawing lines, creating, moving and rotating shapes and a pretty cool turtle.  Check out the examples.
+An extension library of useful 'stuff' (aka classes) I have created for  Minecraft: Pi Edition's API.  
+
+It provides functions for drawing lines, creating, moving and rotating shapes and a pretty cool turtle.  Check out the examples.
+
+## Install
+
+```
+
+git clone https://github.com/martinohanlon/minecraft-stuff
+cd minecraft-stuff
+python setup.py install
+
+```
 
 ## Version history
 0.1 - first beta release, MinecraftDrawing class
