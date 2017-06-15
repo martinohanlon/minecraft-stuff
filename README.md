@@ -29,3 +29,4 @@ python setup.py install
  * 0.7 - minor changes
  * 0.8 - bug fixes
  * 0.9 - added MinecraftTurtle
+ * 0.10 - added Points class to simplify drawFace

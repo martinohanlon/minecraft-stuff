@@ -2,7 +2,7 @@ from setuptools import setup
 
 __project__ = 'minecraftstuff'
 __desc__ = 'An extension library of useful stuff for Minecraft'
-__version__ = '0.9.0'
+__version__ = '0.10.0'
 __author__ = "Martin O'Hanlon"
 __author_email__ = 'martin@ohanlonweb.com'
 __license__ = 'MIT'
