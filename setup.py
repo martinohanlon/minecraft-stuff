@@ -7,7 +7,7 @@ __author__ = "Martin O'Hanlon"
 __author_email__ = 'martin@ohanlonweb.com'
 __license__ = 'MIT'
 __url__ = 'https://github.com/martinohanlon/minecraft-stuff'
-__requires__ = ['',]
+#__requires__ = ['py3minepi',]
 
 __classifiers__ = [
 #    "Development Status :: 3 - Alpha",
