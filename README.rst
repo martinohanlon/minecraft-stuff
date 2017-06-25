@@ -31,6 +31,7 @@ Version history
  * 0.8 - bug fixes
  * 0.9 - added MinecraftTurtle
  * 0.10 - added Points class to simplify drawFace
+ * 1.0 - added docs
 
 .. _Martin O'Hanlon: https://github.com/martinohanlon
 .. _stuffaboutco.de: http://stuffaboutco.de
