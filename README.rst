@@ -6,6 +6,8 @@ An extension library of useful 'stuff' (aka classes) I have created for Minecraf
 
 It provides functions for drawing lines, creating, moving and rotating shapes and a pretty cool turtle.  Check out the `documentation`_ and `examples`_.
 
+|minecraftstuff|
+
 Created by `Martin O'Hanlon`_, `@martinohanlon`_, `stuffaboutco.de`_.
 
 Install
@@ -39,7 +41,7 @@ Version history
 .. _documentation: http://minecraft-stuff.readthedocs.io
 .. _examples: https://github.com/martinohanlon/minecraft-stuff/tree/master/examples
 
-.. |bluedotapp| image:: https://raw.githubusercontent.com/martinohanlon/minecraft-stuff/master/docs/images/minecraftstuff.png
+.. |minecraftstuff| image:: https://raw.githubusercontent.com/martinohanlon/minecraft-stuff/master/docs/images/minecraftstuff.png
    :height: 853 px
    :width: 480 px
    :scale: 100 %
