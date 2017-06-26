@@ -37,7 +37,7 @@ MinecraftTurtle
 .. autoclass:: MinecraftTurtle
     :members:
 
-.. |fractaltree| image:: images/fractaltree.png
+.. |fractaltree| image:: images/fractaltree.jpg
    :height: 480 px
    :width: 854 px
    :scale: 100 %
