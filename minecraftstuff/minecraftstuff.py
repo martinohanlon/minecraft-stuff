@@ -1221,7 +1221,8 @@ class MinecraftTurtle:
         set the turtle's speed.
 
         :param int turtlespeed:
-            ``1`` - ``10``, 1 being the slowest, 10 being the fastest. When set to ``0`` the turtle draws instantaneously.
+            ``1`` - ``10``, 1 being the slowest, 10 being the fastest, defaults to ``6``. 
+            When set to ``0`` the turtle draws instantaneously.
         """
         self.turtlespeed = turtlespeed
 
