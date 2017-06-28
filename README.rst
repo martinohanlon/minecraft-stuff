@@ -15,10 +15,8 @@ Install
 
 Open a terminal and run the following commands::
 
-    git clone https://github.com/martinohanlon/minecraft-stuff
-    cd minecraft-stuff
-    sudo python setup.py install
-    sudo python3 setup.py install
+    sudo pip install minecraftstuff
+    sudo pip3 install minecraftstuff
 
 Version history
 =========================
