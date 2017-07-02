@@ -18,6 +18,53 @@ Open a terminal and run the following commands::
     sudo pip install minecraftstuff
     sudo pip3 install minecraftstuff
 
+Code
+=========================
+
+The module is used like this, see the `documentation`_ for more ::
+
+    from minecraftstuff import MinecraftDrawing, MinecraftShape, MinecraftTurtle
+    from mcpi.minecraft import Minecraft
+    from mcpi import block
+    from time import sleep
+
+    #Connect to minecraft
+    mc = Minecraft.create()
+    # get the players position
+    pos = mc.player.getTilePos()
+
+
+    #Using the Minecraft Drawing API
+    mcdrawing = MinecraftDrawing(mc)
+    
+    # draw a circle with a radius of 10 blocks
+    mcdrawing.drawCircle(pos.x, pos.y + 15, pos.z, 10, block.WOOD.id)
+
+
+    #Using the Minecraft Shape API
+    mcshape = MinecraftShape(mc, pos)
+
+    # create a stone cube
+    mcshape.setBlocks(-5, -5, -5, 5, 5, 5, block.STONE.id)
+    
+    # move it around
+    for i in range(0,10):
+        mcshape.moveBy(1,0,1)
+        sleep(0.5)
+
+
+    #Using the Minecraft Turtle
+    steve = MinecraftTurtle(mc, pos)
+    
+    # draw a square 
+    steve.forward(5)
+    steve.right(90)
+    steve.forward(5)
+    steve.right(90)
+    steve.forward(5)
+    steve.right(90)
+    steve.forward(5)
+
 Version history
 =========================
 
