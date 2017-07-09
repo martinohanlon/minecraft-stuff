@@ -11,7 +11,6 @@ except ImportError:
     import block
     import util
 
-from copy import copy
 import time
 import math
 
