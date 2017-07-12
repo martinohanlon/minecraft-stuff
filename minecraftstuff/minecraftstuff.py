@@ -11,7 +11,6 @@ except ImportError:
     import block
     import util
 
-from copy import deepcopy
 import time
 import math
 
@@ -533,7 +532,7 @@ class MinecraftShape:
             self.mc.setBlock(blockToDraw.actualPos.x, blockToDraw.actualPos.y, blockToDraw.actualPos.z, blockToDraw.blockType, blockToDraw.blockData)
 
         #update the blocks which have been drawn
-        self.drawnShapeBlocks = deepcopy(self.shapeBlocks)
+        self.drawnShapeBlocks = self._copyBlocks(self.shapeBlocks)
         self.visible = True
 
     def redraw(self):
@@ -548,7 +547,7 @@ class MinecraftShape:
             self.mc.setBlock(blockToDraw.actualPos.x, blockToDraw.actualPos.y, blockToDraw.actualPos.z, blockToDraw.blockType, blockToDraw.blockData)
 
         #update the blocks which have been drawn
-        self.drawnShapeBlocks = deepcopy(self.shapeBlocks)
+        self.drawnShapeBlocks = self._copyBlocks(self.shapeBlocks)
         self.visible = True
 
     def clear(self):
@@ -631,6 +630,19 @@ class MinecraftShape:
         
         if self.visible:
             self.draw()
+    
+    def _copyBlocks(self, shapeBlocks):
+        """
+        Internal. copy a list of shapeBlocks to new objects, item level, as
+        opposed to the expensive copy.deepcopy() or copy.copy()
+        """
+        newShapeBlocks = []
+        for shapeBlock in shapeBlocks:
+            newShapeBlock = ShapeBlock(shapeBlock.actualPos.x, shapeBlock.actualPos.y, shapeBlock.actualPos.z, shapeBlock.blockType, shapeBlock.blockData, shapeBlock.tag)
+            newShapeBlock.originalPos = minecraft.Vec3(shapeBlock.originalPos.x, shapeBlock.originalPos.y, shapeBlock.originalPos.z)
+            newShapeBlock.relativePos = minecraft.Vec3(shapeBlock.relativePos.x, shapeBlock.relativePos.y, shapeBlock.relativePos.z)
+            newShapeBlocks.append(newShapeBlock)
+        return newShapeBlocks
 
     def _recalcBlocks(self):
         """
