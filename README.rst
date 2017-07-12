@@ -21,9 +21,34 @@ Open a terminal and run the following commands::
 Code
 =========================
 
-The module is used like this, see the `documentation`_ for more ::
+See the `documentation`_ for more information, but below is a summary.
 
-    from minecraftstuff import MinecraftDrawing, MinecraftShape, MinecraftTurtle
+MinecraftDrawing
+-------------------------
+
+::
+
+    from minecraftstuff import MinecraftDrawing
+    from mcpi.minecraft import Minecraft
+    from mcpi import block
+
+    #Connect to minecraft
+    mc = Minecraft.create()
+    # get the players position
+    pos = mc.player.getTilePos()
+
+    #Using the Minecraft Drawing API
+    mcdrawing = MinecraftDrawing(mc)
+    
+    # draw a circle with a radius of 10 blocks
+    mcdrawing.drawCircle(pos.x, pos.y + 15, pos.z, 10, block.WOOD.id)
+
+MinecraftShape
+-------------------------
+
+::
+
+    from minecraftstuff import MinecraftShape
     from mcpi.minecraft import Minecraft
     from mcpi import block
     from time import sleep
@@ -32,14 +57,6 @@ The module is used like this, see the `documentation`_ for more ::
     mc = Minecraft.create()
     # get the players position
     pos = mc.player.getTilePos()
-
-
-    #Using the Minecraft Drawing API
-    mcdrawing = MinecraftDrawing(mc)
-    
-    # draw a circle with a radius of 10 blocks
-    mcdrawing.drawCircle(pos.x, pos.y + 15, pos.z, 10, block.WOOD.id)
-
 
     #Using the Minecraft Shape API
     mcshape = MinecraftShape(mc, pos)
@@ -53,6 +70,19 @@ The module is used like this, see the `documentation`_ for more ::
         sleep(0.5)
 
 
+MinecraftTurtle
+-------------------------
+
+::
+
+    from minecraftstuff import MinecraftTurtle
+    from mcpi.minecraft import Minecraft
+
+    #Connect to minecraft
+    mc = Minecraft.create()
+    # get the players position
+    pos = mc.player.getTilePos()
+
     #Using the Minecraft Turtle
     steve = MinecraftTurtle(mc, pos)
     
@@ -64,21 +94,6 @@ The module is used like this, see the `documentation`_ for more ::
     steve.forward(5)
     steve.right(90)
     steve.forward(5)
-
-Version history
-=========================
-
- * 1.0 - added docs
- * 0.10 - added Points class to simplify drawFace
- * 0.9 - added MinecraftTurtle
- * 0.8 - bug fixes
- * 0.7 - minor changes
- * 0.6 - python 3 compatibility changes
- * 0.5 - replace sets.Set with set
- * 0.4 - rotating shapes & code tidy up
- * 0.3 - included DrawHollowSphere function
- * 0.2 - extended with new drawing functions and MinecraftShapes class
- * 0.1 - first beta release, MinecraftDrawing class
  
 .. _Martin O'Hanlon: https://github.com/martinohanlon
 .. _stuffaboutco.de: http://stuffaboutco.de

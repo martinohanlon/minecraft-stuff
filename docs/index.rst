@@ -9,3 +9,4 @@ Table of Contents
    minecraftdrawing
    minecraftshape
    minecraftturtle
+   changehistory
